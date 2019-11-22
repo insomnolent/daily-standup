@@ -1,5 +1,5 @@
 import React from 'react';
-import logo from './logo.svg';
+import rats from './img/rats.png';
 import './App.css';
 
 const callBackendAPI = async () => {
@@ -18,7 +18,7 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
+        <img src={rats} className="App-logo" alt="logo" />
         <p>
           Daily Standup Tool
         </p>
