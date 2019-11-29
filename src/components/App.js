@@ -1,47 +1,30 @@
 import React from 'react'
-import rats from '../img/rats.png'
-import { connect } from 'react-redux'
-import { simpleAction } from '../actions/simpleAction'
+import DailyStandup from './DailyStandup'
+import About from './About'
+import Settings from './Settings'
+import Error from './Error'
+import NavBar from './NavBar'
+
+import {useRoutes} from 'hookrouter'
 
 import '../css/App.css'
 
-const mapDispatchToProps = dispatch => ({
-  simpleAction: () => dispatch(simpleAction())
- })
+const routes = {
+  '/': () => <DailyStandup />,
+  '/about': () => <About />,
+  '/settings': () => <Settings />
+};
 
-const mapStateToProps = state => ({
-  ...state
-})
-
-const callBackendAPI = async () => {
-  const response = await fetch('/express_backend')
-  const body = await response.json()
-
-  if (response.status !== 200) {
-    throw Error(body.message) 
-  }
-  return body
-}
-
-function App(props) {
-  callBackendAPI().then(res => console.log(res)).catch(err => console.log(err));
-  
-  const simpleAction = event => {
-    props.simpleAction()
-  }
-
+function App(props) { 
+  const routeResult = useRoutes(routes)
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={rats} className="App-logo" alt="logo" />
-        <p>
-          Daily Standup Tool
-        </p>
-        <pre>{JSON.stringify(props)}</pre>
-        <button onClick={simpleAction}>Test redux action</button>
-      </header>
+        <NavBar />
+      <div className="App-header">
+        { routeResult || <Error /> }
+      </div>
     </div>
   )
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(App)
+export default App
