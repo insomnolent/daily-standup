@@ -1,0 +1,13 @@
+.navbar {
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.navbar-logo {
+  margin-right: auto;
+}
+
+.navbar-logo-size {
+  height: 30px;
+}
