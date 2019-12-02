@@ -1,7 +1,7 @@
 import React from 'react'
 import { A } from 'hookrouter'
 import rats from '../img/rats.png'
-import '../css/NavBar.css'
+import '../css/NavBar.scss'
 
 function NavBar() {
   return (

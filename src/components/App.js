@@ -7,7 +7,7 @@ import NavBar from './NavBar'
 
 import {useRoutes} from 'hookrouter'
 
-import '../css/App.css'
+import '../css/App.scss'
 
 const routes = {
   '/': () => <DailyStandup />,
