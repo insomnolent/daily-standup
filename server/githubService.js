@@ -20,6 +20,7 @@ const apiCall = (url, headers = {}) => {
 }
 
 const checkLastDay = mergedTime => {
+  // TODO: change back to 24 hrs - set it to last 14 days just for testing purposes
   const twentyFourHoursInMilliseconds = 24 * 60 * 60 * 1000 * 14
   const mergedTimeInUnix = parseInt(moment(mergedTime).format('x'))
   return (Date.now() - Math.abs(mergedTimeInUnix)) < twentyFourHoursInMilliseconds 
