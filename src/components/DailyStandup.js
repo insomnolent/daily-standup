@@ -1,45 +1,47 @@
-import React from 'react'
-import rats from '../img/rats.png'
-import { connect } from 'react-redux'
-import { simpleAction } from '../actions/simpleAction'
+import React, { useContext, useEffect } from 'react'
+import { store } from '../store'
+import { loadPullRequests } from '../actions'
 
-import '../css/App.css'
+import '../css/App.scss'
 
-const mapDispatchToProps = dispatch => ({
-  simpleAction: () => dispatch(simpleAction())
- })
+const DailyStandup = props => {  
+  const globalState = useContext(store)
+  console.log('before', globalState.state)
+  const { dispatch, state } = globalState
 
-const mapStateToProps = state => ({
-  ...state
-})
+  useEffect(() => {
+    !state.loading && loadPullRequests(dispatch)
+  }, [])
+  console.log('after', globalState.state)
 
-const callBackendAPI = async () => {
-  const response = await fetch('/express_backend')
-  const body = await response.json()
-
-  if (response.status !== 200) {
-    throw Error(body.message) 
-  }
-  return body
-}
-
-function DailyStandup(props) {
-  callBackendAPI().then(res => console.log(res)).catch(err => console.log(err));
-  
-  const simpleAction = event => {
-    props.simpleAction()
-  }
-
+  // TODO: clean up this mess of jsx when I have more time later
   return (
     <div className="daily-standup">
-        <img src={rats} className="App-logo" alt="logo" />
         <p>
           Daily Standup
         </p>
-        <pre>{JSON.stringify(props)}</pre>
-        <button onClick={simpleAction}>Test redux action</button>
+        {state.pullRequests.map(pr => {
+          return (
+            <div>
+              {(pr.state === 'closed') ? (
+                <div>
+                  <p>Closed: <a href={pr.url}>{pr.title}</a>
+                  </p>
+                  
+                </div>
+              ) : (
+                <div>
+                  <p>Open: <a href={pr.url}>{pr.title}</a>
+                  </p>
+                  
+                </div>
+              )}
+            </div>
+          )
+        })}
+
     </div>
   )
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(DailyStandup)
+export default DailyStandup
